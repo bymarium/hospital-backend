@@ -36,9 +36,10 @@ namespace Hospital.Api.Repositories
       return await _database.SaveAsync();
     }
 
-    public Task<bool> DeleteAsync(Doctor entity)
+    public async Task<bool> DeleteAsync(Doctor entity)
     {
-      throw new NotImplementedException();
+      _database.Doctor.Remove(entity);
+      return await _database.SaveAsync();
     }
 
     public Task<IEnumerable<Doctor>> GetAllAsync()

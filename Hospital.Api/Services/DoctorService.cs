@@ -43,9 +43,21 @@ namespace Hospital.Api.Services
       return entity;
     }
 
-    public Task<Doctor> DeleteAsync(int id)
+    public async Task<Doctor> DeleteAsync(int doctorId)
     {
-      throw new NotImplementedException();
+      var doctor = await _repository.GetByIdAsync(doctorId);
+
+      if (doctor == null)
+      {
+        throw new Exception("Doctor not found");
+      }
+
+      if (!await _repository.DeleteAsync(doctor))
+      {
+        throw new Exception("Doctor not delete");
+      }
+
+      return doctor;
     }
 
     public Task<IEnumerable<Doctor>> GetAllAsync()

@@ -58,9 +58,9 @@ namespace Hospital.Api.Services
       return patient;
     }
 
-    public Task<IEnumerable<Patient>> GetAllAsync()
+    public async Task<IEnumerable<Patient>> GetAllAsync()
     {
-      throw new NotImplementedException();
+      return await _repository.GetAllAsync();
     }
   }
 }

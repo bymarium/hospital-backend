@@ -24,6 +24,22 @@ namespace Hospital.Api.Services
 
       return patient;
     }
+    public async Task<Patient> UpdateAsync(Patient entity)
+    {
+      var patient = await _repository.GetByIdAsync(entity.PatientId);
+
+      if (patient == null)
+      {
+        throw new Exception("Patient not found");
+      }
+
+      if(!await _repository.UpdateAsync(entity))
+      {
+        throw new Exception("User not update");
+      }
+
+      return entity;
+    }
 
     public Task<Patient> DeleteAsync(int id)
     {
@@ -31,11 +47,6 @@ namespace Hospital.Api.Services
     }
 
     public Task<IEnumerable<Patient>> GetAllAsync()
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<Patient> UpdateAsync(Patient entity)
     {
       throw new NotImplementedException();
     }

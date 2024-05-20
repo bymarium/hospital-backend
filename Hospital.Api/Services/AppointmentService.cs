@@ -24,6 +24,22 @@ namespace Hospital.Api.Services
 
       return appointment;
     }
+    public async Task<Appointment> UpdateAsync(Appointment entity)
+    {
+      var appointement = await _repository.GetByIdAsync(entity.AppointmentId);
+
+      if(appointement == null) 
+      {
+        throw new Exception("Appointment not found");
+      }
+
+      if (!await _repository.UpdateAsync(entity))
+      {
+        throw new Exception("Appointment not update");
+      }
+
+      return entity;
+    }
 
     public Task<Appointment> DeleteAsync(int id)
     {
@@ -31,11 +47,6 @@ namespace Hospital.Api.Services
     }
 
     public Task<IEnumerable<Appointment>> GetAllAsync()
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<Appointment> UpdateAsync(Appointment entity)
     {
       throw new NotImplementedException();
     }

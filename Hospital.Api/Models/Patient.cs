@@ -5,5 +5,6 @@
     public int PatientId { get; set; }
     public int Age { get; set; }
     public string Rh {  get; set; }
+    public IEnumerable<Appointment>? Appointments { get; set; }
   }
 }

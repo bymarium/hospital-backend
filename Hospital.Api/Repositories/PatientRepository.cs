@@ -27,7 +27,15 @@ namespace Hospital.Api.Repositories
 
     public async Task<bool> UpdateAsync(Patient entity)
     {
-      throw new NotImplementedException();
+      var patient = await GetByIdAsync(entity.PatientId);
+
+      patient.Name = entity.Name;
+      patient.Email = entity.Email;
+      patient.Password = entity.Password;
+      patient.Age = entity.Age;
+      patient.Rh = entity.Rh;
+
+      return await _database.SaveAsync();
     }
 
     public Task<bool> DeleteAsync(Patient entity)

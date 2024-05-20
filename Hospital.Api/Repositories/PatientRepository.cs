@@ -49,11 +49,9 @@ namespace Hospital.Api.Repositories
       return await _database.Patient.ToListAsync();
     }
 
-    public Task<Patient?> GetByIdAsync(int id)
+    public async Task<Patient?> GetByIdAsync(int patientId)
     {
-      throw new NotImplementedException();
+      return await _database.Patient.FindAsync(patientId);
     }
-
-   
   }
 }

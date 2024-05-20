@@ -9,6 +9,11 @@ namespace Hospital.Api.Repositories.Config.Tables
     {
       entityBuilder.HasKey(doctor => doctor.DoctorId);
       entityBuilder.Property(doctor => doctor.Specialization).IsRequired();
+
+      entityBuilder
+       .HasMany(doctor => doctor.Appointments)
+       .WithOne(appointment => appointment.Doctor)
+       .HasForeignKey(appointment => appointment.DoctorId);
     }
   }
 }

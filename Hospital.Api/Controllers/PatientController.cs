@@ -27,5 +27,18 @@ namespace Hospital.Api.Controllers
         return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
       }
     }
+
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update([FromBody] Patient patient)
+    {
+      try
+      {
+        return StatusCode(StatusCodes.Status200OK, await _service.UpdateAsync(patient));
+      }
+      catch (Exception exception)
+      {
+        return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
+      }
+    }
   }
 }

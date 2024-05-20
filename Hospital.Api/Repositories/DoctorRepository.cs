@@ -42,9 +42,9 @@ namespace Hospital.Api.Repositories
       return await _database.SaveAsync();
     }
 
-    public Task<IEnumerable<Doctor>> GetAllAsync()
+    public async Task<IEnumerable<Doctor>> GetAllAsync()
     {
-      throw new NotImplementedException();
+      return await _database.Doctor.ToListAsync();
     }
 
     public Task<Doctor?> GetByIdAsync(int id)

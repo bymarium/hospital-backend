@@ -20,7 +20,7 @@ namespace Hospital.Api.Services
 
       if (doctor == null)
       {
-        throw new Exception("Doctor not found");
+        throw new Exception("Doctor not created");
       }
 
       return doctor;

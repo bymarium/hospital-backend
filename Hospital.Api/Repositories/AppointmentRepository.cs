@@ -44,9 +44,9 @@ namespace Hospital.Api.Repositories
       return await _database.SaveAsync();
     }
 
-    public Task<IEnumerable<Appointment>> GetAllAsync()
+    public async Task<IEnumerable<Appointment>> GetAllAsync()
     {
-      throw new NotImplementedException();
+      return await _database.Appointment.ToListAsync();
     }
 
     public Task<Appointment?> GetByIdAsync(int id)

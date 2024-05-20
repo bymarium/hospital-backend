@@ -24,6 +24,18 @@ namespace Hospital.Api.Repositories
       return await _database.Doctor.FirstOrDefaultAsync(doctor => doctor.DoctorId.Equals(entity.DoctorId));
     }
 
+    public async Task<bool> UpdateAsync(Doctor entity)
+    {
+      var doctor = await GetByIdAsync(entity.DoctorId);
+
+      doctor.Name = entity.Name;
+      doctor.Email = entity.Email;
+      doctor.Password = entity.Password;
+      doctor.Specialization = entity.Specialization;
+
+      return await _database.SaveAsync();
+    }
+
     public Task<bool> DeleteAsync(Doctor entity)
     {
       throw new NotImplementedException();
@@ -35,11 +47,6 @@ namespace Hospital.Api.Repositories
     }
 
     public Task<Doctor?> GetByIdAsync(int id)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<bool> UpdateAsync(Doctor entity)
     {
       throw new NotImplementedException();
     }

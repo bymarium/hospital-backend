@@ -35,15 +35,27 @@ namespace Hospital.Api.Services
 
       if(!await _repository.UpdateAsync(entity))
       {
-        throw new Exception("User not update");
+        throw new Exception("Patient not update");
       }
 
       return entity;
     }
 
-    public Task<Patient> DeleteAsync(int id)
+    public async Task<Patient> DeleteAsync(int patientId)
     {
-      throw new NotImplementedException();
+      var patient = await _repository.GetByIdAsync(patientId);
+
+      if (patient == null)
+      {
+        throw new Exception("Patient not found");
+      }
+
+      if (!await _repository.DeleteAsync(patient))
+      {
+        throw new Exception("Patient not delete");
+      }
+
+      return patient;
     }
 
     public Task<IEnumerable<Patient>> GetAllAsync()

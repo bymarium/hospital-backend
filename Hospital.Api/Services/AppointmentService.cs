@@ -1,4 +1,5 @@
-﻿using Hospital.Api.Models;
+﻿using Hospital.Api.Dtos;
+using Hospital.Api.Models;
 using Hospital.Api.Repositories.Interfaces;
 using Hospital.Api.Services.Interfaces;
 
@@ -13,8 +14,19 @@ namespace Hospital.Api.Services
       _repository = repository;
     }
 
-    public async Task<Appointment> CreateAsync(Appointment entity)
+    public async Task<Appointment> CreateAsync()
     {
+      AppointmentDto appointmentDto = new AppointmentDto();
+
+      var entity = new Appointment
+      {
+        Date = appointmentDto.Date,
+        Surgery = appointmentDto.Surgery,
+        Diagnostic = appointmentDto.Diagnostic,
+        PatientId = appointmentDto.PatientId,
+        DoctorId = appointmentDto.DoctorId
+      };
+
       var appointment = await _repository.CreateAsync(entity);
 
       if(appointment == null)

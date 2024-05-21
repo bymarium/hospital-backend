@@ -4,6 +4,7 @@
   {
     public int RoleId {  get; set; }
     public string Name { get; set; }
-    public IEnumerable<User>? Users { get; set; }
+    public IEnumerable<Patient>? Patients { get; set; }
+    public IEnumerable<Doctor>? Doctors { get; set; }
   }
 }

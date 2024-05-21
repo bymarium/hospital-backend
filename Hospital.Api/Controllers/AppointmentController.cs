@@ -54,5 +54,11 @@ namespace Hospital.Api.Controllers
         return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
       }
     }
+
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll()
+    {
+      return StatusCode(StatusCodes.Status200OK, await _service.GetAllAsync());
+    }
   }
 }

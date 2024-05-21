@@ -18,7 +18,7 @@ namespace Hospital.Api.Repositories.Config.Tables
       entityBuilder
         .HasOne(patient => patient.Role)
         .WithMany(role => role.Patients)
-        .HasForeignKey(role => role.PatientId);
+        .HasForeignKey(patient => patient.RoleId);
 
       entityBuilder
         .HasMany(patient => patient.Appointments)

@@ -30,11 +30,11 @@ namespace Hospital.Api.Repositories
       var patient = await GetByIdAsync(entity.PatientId);
 
       patient.Name = entity.Name;
-      patient.Email = entity.Email;
-      patient.Password = entity.Password;
       patient.Age = entity.Age;
       patient.Rh = entity.Rh;
-
+      patient.Email = entity.Email;
+      patient.Password = entity.Password;
+    
       return await _database.SaveAsync();
     }
 

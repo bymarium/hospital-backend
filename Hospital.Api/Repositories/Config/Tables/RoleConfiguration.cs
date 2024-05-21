@@ -9,16 +9,6 @@ namespace Hospital.Api.Repositories.Config.Tables
     {
       entityBuilder.HasKey(role => role.RoleId);
       entityBuilder.Property(role => role.Name).IsRequired();
-
-      entityBuilder
-        .HasMany(role => role.Patients)
-        .WithOne(patient => patient.Role)
-        .HasForeignKey(patient => patient.RoleId);
-
-      entityBuilder
-        .HasMany(role => role.Doctors)
-        .WithOne(doctor => doctor.Role)
-        .HasForeignKey(doctor => doctor.RoleId);
     }
   }
 }

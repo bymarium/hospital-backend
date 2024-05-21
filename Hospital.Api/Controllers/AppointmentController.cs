@@ -60,5 +60,19 @@ namespace Hospital.Api.Controllers
     {
       return StatusCode(StatusCodes.Status200OK, await _service.GetAllAsync());
     }
+
+    [HttpGet("GetByAge")]
+public async Task<IActionResult> GetByAge(int age)
+{
+    try
+    {
+        var appointments = await _service.GetAppointmentsByAgeAsync(age);
+        return StatusCode(StatusCodes.Status200OK, appointments);
+    }
+    catch (Exception exception)
+    {
+        return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
+    }
+}
   }
 }

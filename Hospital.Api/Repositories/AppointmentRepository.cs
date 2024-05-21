@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospital.Api.Repositories
 {
-  public class AppointmentRepository : IRepository<Appointment>
+  public class AppointmentRepository : IAppointmentRepository
   {
     private readonly IDatabase _database;
 
@@ -52,6 +52,35 @@ namespace Hospital.Api.Repositories
     public async Task<Appointment?> GetByIdAsync(int appointmentId)
     {
       return await _database.Appointment.FindAsync(appointmentId);
+    }
+
+    public async Task<IEnumerable<Appointment>> GetAppointmentsByAgeAsync(int age)
+    {
+      DateTime forgetDate = CalculateForgetDate(age);
+
+      return await _database.Appointment.Where(a => a.PatientId == null && a.Date >= forgetDate).ToListAsync();
+    }
+
+    private DateTime CalculateForgetDate(int age)
+    {
+      DateTime currentDate = DateTime.Now;
+
+      if (age > 24 && age < 36)
+      {
+        return currentDate.AddMonths(2).AddDays(15);
+      }
+      else if (age > 35 && age < 46)
+      {
+        return currentDate.AddMonths(1).AddDays(15);
+      }
+      else if (age > 46)
+      {
+        return currentDate.AddDays(15);
+      }
+      else
+      {
+        return currentDate.AddMonths(3);
+      }
     }
   }
 }

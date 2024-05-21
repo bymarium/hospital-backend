@@ -7,9 +7,9 @@ namespace Hospital.Api.Services
 {
   public class AppointmentService : IAppointmentService
   {
-    private readonly IRepository<Appointment> _repository;
+    private readonly IAppointmentRepository _repository;
 
-    public AppointmentService(IRepository<Appointment> repository)
+    public AppointmentService(IAppointmentRepository repository)
     {
       _repository = repository;
     }
@@ -21,7 +21,7 @@ namespace Hospital.Api.Services
         Date = appointmentDto.Date,
         Surgery = appointmentDto.Surgery,
         Diagnostic = appointmentDto.Diagnostic,
-        PatientId = appointmentDto.PatientId,
+        PatientId = appointmentDto?.PatientId,
         DoctorId = appointmentDto.DoctorId
       };
 
@@ -71,6 +71,11 @@ namespace Hospital.Api.Services
     public async Task<IEnumerable<Appointment>> GetAllAsync()
     {
       return await _repository.GetAllAsync();
+    }
+
+    public async Task<IEnumerable<Appointment>> GetAppointmentsByAgeAsync(int age)
+    {
+      return await _repository.GetAppointmentsByAgeAsync(age);
     }
   }
 }

@@ -13,7 +13,7 @@ builder.Services.AddScoped<IDatabase, Database>();
 
 builder.Services.AddScoped<IRepository<Patient>, PatientRepository>();
 builder.Services.AddScoped<IRepository<Doctor>, DoctorRepository>();
-builder.Services.AddScoped<IRepository<Appointment>, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();

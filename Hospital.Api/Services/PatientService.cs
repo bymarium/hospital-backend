@@ -44,7 +44,7 @@ namespace Hospital.Api.Services
         throw new Exception("Patient not found");
       }
 
-      if(!await _repository.UpdateAsync(entity))
+      if (!await _repository.UpdateAsync(entity))
       {
         throw new Exception("Patient not update");
       }

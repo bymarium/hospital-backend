@@ -41,5 +41,18 @@ namespace Hospital.Api.Controllers
         return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
       }
     }
+
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> Delete(int appointmentId)
+    {
+      try
+      {
+        return StatusCode(StatusCodes.Status200OK, await _service.DeleteAsync(appointmentId));
+      }
+      catch (Exception exception)
+      {
+        return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using Hospital.Api.Dtos;
+using Hospital.Api.Models;
 using Hospital.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,19 @@ namespace Hospital.Api.Controllers
       catch (Exception exception)
       {
         return StatusCode(StatusCodes.Status404NotFound, new { Error = exception.Message });
+      }
+    }
+
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update([FromBody] Appointment appointment)
+    {
+      try
+      {
+        return StatusCode(StatusCodes.Status200OK, await _service.UpdateAsync(appointment));
+      }
+      catch (Exception exception)
+      {
+        return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
       }
     }
   }

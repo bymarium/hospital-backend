@@ -29,9 +29,9 @@ namespace Hospital.Api.Repositories
       var doctor = await GetByIdAsync(entity.DoctorId);
 
       doctor.Name = entity.Name;
+      doctor.Specialization = entity.Specialization;
       doctor.Email = entity.Email;
       doctor.Password = entity.Password;
-      doctor.Specialization = entity.Specialization;
 
       return await _database.SaveAsync();
     }

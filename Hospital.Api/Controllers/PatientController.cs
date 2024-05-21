@@ -1,4 +1,5 @@
-﻿using Hospital.Api.Models;
+﻿using Hospital.Api.Dtos;
+using Hospital.Api.Models;
 using Hospital.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +9,19 @@ namespace Hospital.Api.Controllers
   [Route("api/[controller]")]
   public class PatientController : ControllerBase
   {
-    private readonly IService<Patient> _service;
+    private readonly IPatientService _service;
 
-    public PatientController(IService<Patient> service)
+    public PatientController(IPatientService service)
     {
       _service = service;
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create([FromBody] PatientDto patientDto)
     {
       try
       {
-        return StatusCode(StatusCodes.Status201Created, await _service.CreateAsync());
+        return StatusCode(StatusCodes.Status201Created, await _service.CreateAsync(patientDto));
       }
       catch (Exception exception)
       {

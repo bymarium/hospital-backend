@@ -5,7 +5,7 @@ using Hospital.Api.Services.Interfaces;
 
 namespace Hospital.Api.Services
 {
-  public class DoctorService : IService<Doctor>
+  public class DoctorService : IDoctorService
   {
     private readonly IRepository<Doctor> _repository;
 

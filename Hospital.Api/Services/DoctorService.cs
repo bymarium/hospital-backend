@@ -2,7 +2,6 @@
 using Hospital.Api.Models;
 using Hospital.Api.Repositories.Interfaces;
 using Hospital.Api.Services.Interfaces;
-using System.Linq.Expressions;
 
 namespace Hospital.Api.Services
 {
@@ -15,10 +14,8 @@ namespace Hospital.Api.Services
       _repository = repository;
     }
 
-    public async Task<Doctor> CreateAsync()
+    public async Task<Doctor> CreateAsync(DoctorDto doctorDto)
     {
-      DoctorDto doctorDto = new DoctorDto();
-
       var entity = new Doctor
       {
         Name = doctorDto.Name,

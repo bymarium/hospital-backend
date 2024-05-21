@@ -5,7 +5,7 @@ using Hospital.Api.Services.Interfaces;
 
 namespace Hospital.Api.Services
 {
-  public class AppointmentService : IService<Appointment>
+  public class AppointmentService : IAppointmentService
   {
     private readonly IRepository<Appointment> _repository;
 
@@ -14,10 +14,8 @@ namespace Hospital.Api.Services
       _repository = repository;
     }
 
-    public async Task<Appointment> CreateAsync()
+    public async Task<Appointment> CreateAsync(AppointmentDto appointmentDto)
     {
-      AppointmentDto appointmentDto = new AppointmentDto();
-
       var entity = new Appointment
       {
         Date = appointmentDto.Date,

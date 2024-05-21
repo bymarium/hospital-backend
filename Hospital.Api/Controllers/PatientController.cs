@@ -16,11 +16,11 @@ namespace Hospital.Api.Controllers
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] Patient patient)
+    public async Task<IActionResult> Create()
     {
       try
       {
-        return StatusCode(StatusCodes.Status201Created, await _service.CreateAsync(patient));
+        return StatusCode(StatusCodes.Status201Created, await _service.CreateAsync());
       }
       catch (Exception exception)
       {

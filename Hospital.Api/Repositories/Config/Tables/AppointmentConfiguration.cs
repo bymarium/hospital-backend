@@ -18,14 +18,12 @@ namespace Hospital.Api.Repositories.Config.Tables
       entityBuilder
         .HasOne(appointment => appointment.Patient)
         .WithMany(patient => patient.Appointments)
-        .HasForeignKey(appointment => appointment.PatientId)
-        .OnDelete(DeleteBehavior.Restrict);
+        .HasForeignKey(appointment => appointment.PatientId);
 
       entityBuilder
         .HasOne(appointment => appointment.Doctor)
         .WithMany(doctor => doctor.Appointments)
-        .HasForeignKey(appointment => appointment.DoctorId)
-        .OnDelete(DeleteBehavior.Restrict);
+        .HasForeignKey(appointment => appointment.DoctorId);
     }
   }
 }

@@ -7,10 +7,12 @@ namespace Hospital.Api.Dtos
     [JsonPropertyName("appointmentId")]
     public int AppointmentId { get; set; }
 
-    [JsonIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonPropertyName("patientId")]
     public int? PatientId { get; set; }
 
-    [JsonIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonPropertyName("doctorId")]
     public int DoctorId { get; set; }
 
     [JsonPropertyName("date")]

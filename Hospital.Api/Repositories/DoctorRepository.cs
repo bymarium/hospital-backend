@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospital.Api.Repositories
 {
-  public class DoctorRepository : IRepository<Doctor>
+  public class DoctorRepository : IDoctorRepository
   {
     private readonly IDatabase _database;
 
@@ -54,6 +54,11 @@ namespace Hospital.Api.Repositories
     public async Task<Doctor?> GetByIdAsync(int doctorId)
     {
       return await _database.Doctor.FindAsync(doctorId);
+    }
+
+    public async Task<bool> EmailExistsAsync(string email)
+    {
+      return await _database.Doctor.AnyAsync(doctor => doctor.Email.Equals(email));
     }
   }
 }

@@ -38,9 +38,8 @@ namespace Hospital.Api.Services
         Date = appointment.Date,
         Surgery = appointment.Surgery,
         Diagnostic = appointment.Diagnostic,
-        PatientId = appointment?.PatientId,
+        PatientId = appointment.PatientId,
         DoctorId = appointment.DoctorId,
-        Doctor = appointmentDto?.Doctor
       };
     }
     public async Task<AppointmentDto> UpdateAsync(AppointmentDto appointmentDto)
@@ -58,7 +57,7 @@ namespace Hospital.Api.Services
         Date = appointmentDto.Date,
         Surgery = appointmentDto.Surgery,
         Diagnostic = appointmentDto.Diagnostic,
-        PatientId = appointmentDto?.PatientId,
+        PatientId = appointmentDto.PatientId,
         DoctorId = appointmentDto.DoctorId
       };
 

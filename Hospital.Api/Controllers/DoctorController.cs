@@ -25,7 +25,8 @@ namespace Hospital.Api.Controllers
       }
       catch (Exception exception)
       {
-        return StatusCode(StatusCodes.Status404NotFound, new { Error = exception.Message });
+        ErrorDto errorDto = new ErrorDto(exception.Message);
+        return StatusCode(StatusCodes.Status400BadRequest, errorDto);
       }
     }
 
@@ -38,7 +39,8 @@ namespace Hospital.Api.Controllers
       }
       catch (Exception exception)
       {
-        return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
+        ErrorDto errorDto = new ErrorDto(exception.Message);
+        return StatusCode(StatusCodes.Status400BadRequest, errorDto);
       }
     }
 
@@ -51,7 +53,8 @@ namespace Hospital.Api.Controllers
       }
       catch (Exception exception)
       {
-        return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
+        ErrorDto errorDto = new ErrorDto(exception.Message);
+        return StatusCode(StatusCodes.Status400BadRequest, errorDto);
       }
     }
 

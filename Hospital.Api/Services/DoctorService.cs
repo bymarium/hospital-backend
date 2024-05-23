@@ -7,15 +7,20 @@ namespace Hospital.Api.Services
 {
   public class DoctorService : IService<DoctorDto>
   {
-    private readonly IRepository<Doctor> _repository;
+    private readonly IDoctorRepository _repository;
 
-    public DoctorService(IRepository<Doctor> repository)
+    public DoctorService(IDoctorRepository repository)
     {
       _repository = repository;
     }
 
     public async Task<DoctorDto> CreateAsync(DoctorDto doctorDto)
     {
+      if (await _repository.EmailExistsAsync(doctorDto.Email))
+      {
+        throw new Exception("Email already exists");
+      }
+
       var entity = new Doctor
       {
         Name = doctorDto.Name,

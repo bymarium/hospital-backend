@@ -7,15 +7,20 @@ namespace Hospital.Api.Services
 {
   public class PatientService : IService<PatientDto>
   {
-    private readonly IRepository<Patient> _repository;
+    private readonly IPatientRepository _repository;
 
-    public PatientService(IRepository<Patient> repository)
+    public PatientService(IPatientRepository repository)
     {
       _repository = repository;
     }
 
     public async Task<PatientDto> CreateAsync(PatientDto patientDto)
     {
+      if (await _repository.EmailExistsAsync(patientDto.Email))
+      {
+        throw new Exception("Email already exists");
+      }
+
       var entity = new Patient
       {
         Name = patientDto.Name,
@@ -26,7 +31,7 @@ namespace Hospital.Api.Services
       };
 
       var patient = await _repository.CreateAsync(entity);
-
+ 
       if (patient == null)
       {
         throw new Exception("Patient not created");

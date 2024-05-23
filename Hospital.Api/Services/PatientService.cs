@@ -22,8 +22,7 @@ namespace Hospital.Api.Services
         Age = patientDto.Age,
         Rh = patientDto.Rh,
         Email = patientDto.Email,
-        Password = patientDto.Password,
-        RoleId = patientDto.RoleId
+        Password = patientDto.Password
       };
 
       var patient = await _repository.CreateAsync(entity);
@@ -40,8 +39,7 @@ namespace Hospital.Api.Services
         Age = patient.Age,
         Rh = patient.Rh,
         Email = patient.Email,
-        Password = patient.Password,
-        RoleId = patient.RoleId
+        Password = patient.Password
       };
     }
     public async Task<PatientDto> UpdateAsync(PatientDto patientDto)
@@ -60,8 +58,7 @@ namespace Hospital.Api.Services
         Age = patientDto.Age,
         Rh = patientDto.Rh,
         Email = patientDto.Email,
-        Password = patientDto.Password,
-        RoleId = patientDto.RoleId
+        Password = patientDto.Password
       };
 
       if (!await _repository.UpdateAsync(entity))
@@ -93,8 +90,7 @@ namespace Hospital.Api.Services
         Age = patient.Age,
         Rh = patient.Rh,
         Email = patient.Email,
-        Password = patient.Password,
-        RoleId = patient.RoleId
+        Password = patient.Password
       };
     }
 
@@ -110,7 +106,6 @@ namespace Hospital.Api.Services
         Rh = patient.Rh,
         Email = patient.Email,
         Password = patient.Password,
-        RoleId = patient.RoleId,
         Appointments = patient.Appointments != null ? patient.Appointments.Select(appointment => new AppointmentDto
         {
           AppointmentId = appointment.AppointmentId,
@@ -122,8 +117,7 @@ namespace Hospital.Api.Services
             DoctorId = appointment.Doctor.DoctorId,
             Name = appointment.Doctor.Name,
             Specialization = appointment.Doctor.Specialization,
-            Email = appointment.Doctor.Email,
-            RoleId = appointment.Doctor.RoleId
+            Email = appointment.Doctor.Email
           }
         }).ToList() : null
       }); 
@@ -140,8 +134,7 @@ namespace Hospital.Api.Services
         Age = patient.Age,
         Rh = patient.Rh,
         Email = patient.Email,
-        Password = patient.Password,
-        RoleId = patient.RoleId,
+        Password = patient.Password
       };
     }
   }

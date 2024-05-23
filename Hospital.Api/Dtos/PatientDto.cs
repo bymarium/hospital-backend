@@ -7,9 +7,6 @@ namespace Hospital.Api.Dtos
     [JsonPropertyName("patientId")]
     public int PatientId { get; set; }
 
-    [JsonPropertyName("roleId")]
-    public int RoleId { get; set; }
-
     [JsonPropertyName("name")]
     public string Name { get; set; }
 

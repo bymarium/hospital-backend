@@ -5,7 +5,6 @@ namespace Hospital.Api.Repositories.Interfaces
 {
   public interface IDatabase
   {
-    public DbSet<Role> Role {  get; }
     public DbSet<Patient> Patient { get; }
     public DbSet<Doctor> Doctor { get; }
     public DbSet<Appointment> Appointment { get; }

@@ -146,16 +146,14 @@ namespace Hospital.Api.Services
           Name = appointment.Patient.Name,
           Age = appointment.Patient.Age,
           Rh = appointment.Patient.Rh,
-          Email = appointment.Patient.Email,
-          RoleId = appointment.Patient.RoleId
+          Email = appointment.Patient.Email
         } : null,
         Doctor = new DoctorDto
         {
           DoctorId = appointment.Doctor.DoctorId,
           Name = appointment.Doctor.Name,
           Specialization = appointment.Doctor.Specialization,
-          Email = appointment.Doctor.Email,
-          RoleId = appointment.Doctor.RoleId
+          Email = appointment.Doctor.Email
         }
       });
     }

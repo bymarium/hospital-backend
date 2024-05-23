@@ -7,9 +7,7 @@ namespace Hospital.Api.Repositories.Config
 {
   public class Database : DbContext, IDatabase
   {
-    public DbSet<Role> Role {  get; set; }
     public DbSet<Patient> Patient { get; set; }
-
     public DbSet<Doctor> Doctor { get; set; }
     public DbSet<Appointment> Appointment { get; set; }
 
@@ -28,7 +26,6 @@ namespace Hospital.Api.Repositories.Config
 
     private void EntityConfiguration(ModelBuilder modelBuilder)
     {
-      new RoleConfiguration(modelBuilder.Entity<Role>());
       new PatientConfiguration(modelBuilder.Entity<Patient>());
       new DoctorConfiguration(modelBuilder.Entity<Doctor>());
       new AppointmentConfiguration(modelBuilder.Entity<Appointment>());

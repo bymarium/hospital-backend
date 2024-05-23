@@ -21,8 +21,7 @@ namespace Hospital.Api.Services
         Name = doctorDto.Name,
         Specialization = doctorDto.Specialization,
         Email = doctorDto.Email,
-        Password = doctorDto.Password,
-        RoleId = doctorDto.RoleId
+        Password = doctorDto.Password
       };
 
       var doctor = await _repository.CreateAsync(entity);
@@ -38,8 +37,7 @@ namespace Hospital.Api.Services
         Name = doctor.Name,
         Specialization = doctor.Specialization,
         Email = doctor.Email,
-        Password = doctor.Password,
-        RoleId = doctor.RoleId
+        Password = doctor.Password
       };
     }
 
@@ -58,8 +56,7 @@ namespace Hospital.Api.Services
         Name = doctorDto.Name,
         Specialization = doctorDto.Specialization,
         Email = doctorDto.Email,
-        Password = doctorDto.Password,
-        RoleId = doctorDto.RoleId
+        Password = doctorDto.Password
       };
 
       if (!await _repository.UpdateAsync(entity))
@@ -90,8 +87,7 @@ namespace Hospital.Api.Services
         Name = doctor.Name,
         Specialization = doctor.Specialization,
         Email = doctor.Email,
-        Password = doctor.Password,
-        RoleId = doctor.RoleId
+        Password = doctor.Password
       };
     }
 
@@ -106,7 +102,6 @@ namespace Hospital.Api.Services
         Specialization = doctor.Specialization,
         Email = doctor.Email,
         Password = doctor.Password,
-        RoleId = doctor.RoleId,
         Appointments = doctor.Appointments != null ? doctor.Appointments.Select(appointment => new AppointmentDto
         {
           AppointmentId = appointment.AppointmentId,
@@ -119,8 +114,7 @@ namespace Hospital.Api.Services
             Name = appointment.Patient.Name,
             Age = appointment.Patient.Age,
             Rh = appointment.Patient.Rh,
-            Email = appointment.Patient.Email,
-            RoleId = appointment.Patient.RoleId
+            Email = appointment.Patient.Email
           } : null
         }).ToList() : null
     });
@@ -136,8 +130,7 @@ namespace Hospital.Api.Services
         Name = doctor.Name,
         Specialization = doctor.Specialization,
         Email = doctor.Email,
-        Password = doctor.Password,
-        RoleId = doctor.RoleId
+        Password = doctor.Password
       };
     }
   }

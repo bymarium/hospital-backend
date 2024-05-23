@@ -5,6 +5,9 @@ using Hospital.Api.Repositories.Interfaces;
 using Hospital.Api.Services;
 using Hospital.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Hospital.Api.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +18,17 @@ builder.Services.AddScoped<IRepository<Patient>, PatientRepository>();
 builder.Services.AddScoped<IRepository<Doctor>, DoctorRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
-builder.Services.AddScoped<IPatientService, PatientService>();
-builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IService<PatientDto>, PatientService>();
+builder.Services.AddScoped<IService<DoctorDto>, DoctorService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+  options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+  options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+  options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

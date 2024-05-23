@@ -1,4 +1,5 @@
 ﻿using Hospital.Api.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hospital.Api.Repositories.Config.Tables
@@ -17,12 +18,14 @@ namespace Hospital.Api.Repositories.Config.Tables
       entityBuilder
         .HasOne(appointment => appointment.Patient)
         .WithMany(patient => patient.Appointments)
-        .HasForeignKey(appointment => appointment.PatientId);
+        .HasForeignKey(appointment => appointment.PatientId)
+        .OnDelete(DeleteBehavior.Restrict);
 
       entityBuilder
         .HasOne(appointment => appointment.Doctor)
         .WithMany(doctor => doctor.Appointments)
-        .HasForeignKey(appointment => appointment.DoctorId);
+        .HasForeignKey(appointment => appointment.DoctorId)
+        .OnDelete(DeleteBehavior.Restrict);
     }
   }
 }

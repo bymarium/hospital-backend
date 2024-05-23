@@ -1,11 +1,31 @@
-﻿namespace Hospital.Api.Dtos
+﻿using System.Text.Json.Serialization;
+
+namespace Hospital.Api.Dtos
 {
   public class DoctorDto
   {
-    public string Name { get; set; }
-    public string Specialization { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
+    [JsonPropertyName("doctorId")]
+    public int DoctorId { get; set; }
+
+    [JsonPropertyName("roleId")]
     public int RoleId { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("specialization")]
+    public string Specialization { get; set; }
+
+    [JsonPropertyName("email")]
+    public string Email { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("password")]
+    public string Password { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyName("appointments")]
+    public IEnumerable<AppointmentDto>? Appointments { get; set; }
+
   }
 }

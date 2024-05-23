@@ -8,7 +8,7 @@
     public DateTime Date { get; set; }
     public string Surgery { get; set; }
     public string Diagnostic { get; set; }
-    public Patient Patient { get; set; }
-    public Doctor? Doctor { get; set; }
+    public Patient? Patient { get; set; }
+    public Doctor Doctor { get; set; }
   }
 }

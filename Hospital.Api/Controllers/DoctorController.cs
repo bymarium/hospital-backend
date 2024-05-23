@@ -9,9 +9,9 @@ namespace Hospital.Api.Controllers
   [Route("api/[controller]")]
   public class DoctorController : ControllerBase
   {
-    private readonly IDoctorService _service;
+    private readonly IService<DoctorDto> _service;
 
-    public DoctorController (IDoctorService service)
+    public DoctorController (IService<DoctorDto> service)
     {
       _service = service;
     }
@@ -30,11 +30,11 @@ namespace Hospital.Api.Controllers
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] Doctor doctor)
+    public async Task<IActionResult> Update([FromBody] DoctorDto doctorDto)
     {
       try
       {
-        return StatusCode(StatusCodes.Status200OK, await _service.UpdateAsync(doctor));
+        return StatusCode(StatusCodes.Status200OK, await _service.UpdateAsync(doctorDto));
       }
       catch (Exception exception)
       {
@@ -59,6 +59,12 @@ namespace Hospital.Api.Controllers
     public async Task<IActionResult> GetAll()
     {
       return StatusCode(StatusCodes.Status200OK, await _service.GetAllAsync());
+    }
+
+    [HttpGet("GetById")]
+    public async Task<IActionResult> GetById(int doctorId)
+    {
+      return StatusCode(StatusCodes.Status200OK, await _service.GetByIdAsync(doctorId));
     }
   }
 }

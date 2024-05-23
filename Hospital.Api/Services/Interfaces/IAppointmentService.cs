@@ -3,10 +3,8 @@ using Hospital.Api.Models;
 
 namespace Hospital.Api.Services.Interfaces
 {
-  public interface IAppointmentService : IService<Appointment>
+  public interface IAppointmentService : IService<AppointmentDto>
   {
-    Task<Appointment> CreateAsync(AppointmentDto entity);
-    public Task<IEnumerable<Appointment>> GetAppointmentsByAgeAsync(int age);
-
+    public Task<IEnumerable<AppointmentDto>> GetAppointmentsByAgeAsync(int age);
   }
 }

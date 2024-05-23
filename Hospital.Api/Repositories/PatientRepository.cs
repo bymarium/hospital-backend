@@ -46,7 +46,10 @@ namespace Hospital.Api.Repositories
 
     public async Task<IEnumerable<Patient>> GetAllAsync()
     {
-      return await _database.Patient.ToListAsync();
+      return await _database.Patient
+        .Include(patient => patient.Appointments)
+        .ThenInclude(appointment => appointment.Doctor)
+        .ToListAsync();
     }
 
     public async Task<Patient?> GetByIdAsync(int patientId)

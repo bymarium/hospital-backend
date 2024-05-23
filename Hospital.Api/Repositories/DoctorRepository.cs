@@ -1,4 +1,5 @@
-﻿using Hospital.Api.Models;
+﻿using Hospital.Api.Dtos;
+using Hospital.Api.Models;
 using Hospital.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ namespace Hospital.Api.Repositories
     {
       _database.Doctor.Add(entity);
 
-      if (!await _database.SaveAsync()) 
+      if (!await _database.SaveAsync())
       {
         return null;
       }
@@ -44,7 +45,10 @@ namespace Hospital.Api.Repositories
 
     public async Task<IEnumerable<Doctor>> GetAllAsync()
     {
-      return await _database.Doctor.ToListAsync();
+      return await _database.Doctor
+        .Include(doctor => doctor.Appointments)
+        .ThenInclude(appointment => appointment.Patient)
+        .ToListAsync();
     }
 
     public async Task<Doctor?> GetByIdAsync(int doctorId)

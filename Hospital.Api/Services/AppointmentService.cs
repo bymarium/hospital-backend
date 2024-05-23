@@ -1,8 +1,8 @@
 ﻿using Hospital.Api.Dtos;
 using Hospital.Api.Models;
+using Hospital.Api.Repositories;
 using Hospital.Api.Repositories.Interfaces;
 using Hospital.Api.Services.Interfaces;
-
 namespace Hospital.Api.Services
 {
   public class AppointmentService : IAppointmentService
@@ -14,7 +14,7 @@ namespace Hospital.Api.Services
       _repository = repository;
     }
 
-    public async Task<Appointment> CreateAsync(AppointmentDto appointmentDto)
+    public async Task<AppointmentDto> CreateAsync(AppointmentDto appointmentDto)
     {
       var entity = new Appointment
       {
@@ -27,55 +27,152 @@ namespace Hospital.Api.Services
 
       var appointment = await _repository.CreateAsync(entity);
 
-      if(appointment == null)
+      if (appointment == null)
       {
         throw new Exception("Appointment not created");
       }
 
-      return appointment;
+      return new()
+      {
+        AppointmentId = appointment.AppointmentId,
+        Date = appointment.Date,
+        Surgery = appointment.Surgery,
+        Diagnostic = appointment.Diagnostic,
+        PatientId = appointment?.PatientId,
+        DoctorId = appointment.DoctorId,
+        Doctor = appointmentDto?.Doctor
+      };
     }
-    public async Task<Appointment> UpdateAsync(Appointment entity)
+    public async Task<AppointmentDto> UpdateAsync(AppointmentDto appointmentDto)
     {
-      var appointement = await _repository.GetByIdAsync(entity.AppointmentId);
+      var currentAppointement = await _repository.GetByIdAsync(appointmentDto.AppointmentId);
 
-      if(appointement == null) 
+      if (currentAppointement == null)
       {
         throw new Exception("Appointment not found");
       }
+
+      var entity = new Appointment
+      {
+        AppointmentId = appointmentDto.AppointmentId,
+        Date = appointmentDto.Date,
+        Surgery = appointmentDto.Surgery,
+        Diagnostic = appointmentDto.Diagnostic,
+        PatientId = appointmentDto?.PatientId,
+        DoctorId = appointmentDto.DoctorId
+      };
 
       if (!await _repository.UpdateAsync(entity))
       {
         throw new Exception("Appointment not update");
       }
 
-      return entity;
+      return appointmentDto;
     }
 
-    public async Task<Appointment> DeleteAsync(int appointmentId)
+    public async Task<AppointmentDto> DeleteAsync(int appointmentId)
     {
-      var appointement = await _repository.GetByIdAsync(appointmentId);
+      var appointment = await _repository.GetByIdAsync(appointmentId);
 
-      if (appointement == null)
+      if (appointment == null)
       {
         throw new Exception("Appointment not found");
       }
 
-      if (!await _repository.DeleteAsync(appointement))
+      if (!await _repository.DeleteAsync(appointment))
       {
         throw new Exception("Appointment not delete");
       }
 
-      return appointement;
+      return new()
+      {
+        AppointmentId = appointment.AppointmentId,
+        Date = appointment.Date,
+        Surgery = appointment.Surgery,
+        Diagnostic = appointment.Diagnostic,
+        PatientId = appointment?.PatientId,
+        DoctorId = appointment.DoctorId
+      };
     }
 
-    public async Task<IEnumerable<Appointment>> GetAllAsync()
+    public async Task<IEnumerable<AppointmentDto>> GetAllAsync()
     {
-      return await _repository.GetAllAsync();
+      var appointments = await _repository.GetAllAsync();
+
+      return MapAppointments(appointments);
     }
 
-    public async Task<IEnumerable<Appointment>> GetAppointmentsByAgeAsync(int age)
+    public async Task<IEnumerable<AppointmentDto>> GetAppointmentsByAgeAsync(int age)
     {
-      return await _repository.GetAppointmentsByAgeAsync(age);
+      DateTime forgetDate = CalculateForgetDate(age);
+      var appointments = await _repository.GetAppointmentsByAgeAsync(forgetDate);
+
+      return MapAppointments(appointments);
+    }
+
+    private DateTime CalculateForgetDate(int age)
+    {
+      DateTime currentDate = DateTime.Now;
+
+      if (age > 24 && age < 36)
+      {
+        return currentDate.AddMonths(2).AddDays(15);
+      }
+      else if (age > 35 && age < 46)
+      {
+        return currentDate.AddMonths(1).AddDays(15);
+      }
+      else if (age > 46)
+      {
+        return currentDate.AddDays(15);
+      }
+      else
+      {
+        return currentDate.AddMonths(3);
+      }
+    }
+
+    private IEnumerable<AppointmentDto> MapAppointments(IEnumerable<Appointment> appointments)
+    {
+      return appointments.Select(appointment => new AppointmentDto
+      {
+        AppointmentId = appointment.AppointmentId,
+        Date = appointment.Date,
+        Surgery = appointment.Surgery,
+        Diagnostic = appointment.Diagnostic,
+        Patient = appointment.Patient != null ? new PatientDto
+        {
+          PatientId = appointment.Patient.PatientId,
+          Name = appointment.Patient.Name,
+          Age = appointment.Patient.Age,
+          Rh = appointment.Patient.Rh,
+          Email = appointment.Patient.Email,
+          RoleId = appointment.Patient.RoleId
+        } : null,
+        Doctor = new DoctorDto
+        {
+          DoctorId = appointment.Doctor.DoctorId,
+          Name = appointment.Doctor.Name,
+          Specialization = appointment.Doctor.Specialization,
+          Email = appointment.Doctor.Email,
+          RoleId = appointment.Doctor.RoleId
+        }
+      });
+    }
+
+    public async Task<AppointmentDto> GetByIdAsync(int appointmentId)
+    {
+      var appointment = await _repository.GetByIdAsync(appointmentId);
+
+      return new()
+      {
+        AppointmentId = appointment.AppointmentId,
+        Date = appointment.Date,
+        Surgery = appointment.Surgery,
+        Diagnostic = appointment.Diagnostic,
+        PatientId = appointment?.PatientId,
+        DoctorId = appointment.DoctorId
+      };
     }
   }
 }

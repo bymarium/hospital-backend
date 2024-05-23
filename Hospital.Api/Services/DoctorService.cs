@@ -5,7 +5,7 @@ using Hospital.Api.Services.Interfaces;
 
 namespace Hospital.Api.Services
 {
-  public class DoctorService : IDoctorService
+  public class DoctorService : IService<DoctorDto>
   {
     private readonly IRepository<Doctor> _repository;
 
@@ -14,7 +14,7 @@ namespace Hospital.Api.Services
       _repository = repository;
     }
 
-    public async Task<Doctor> CreateAsync(DoctorDto doctorDto)
+    public async Task<DoctorDto> CreateAsync(DoctorDto doctorDto)
     {
       var entity = new Doctor
       {
@@ -32,27 +32,45 @@ namespace Hospital.Api.Services
         throw new Exception("Doctor not created");
       }
 
-      return doctor;
+      return new()
+      {
+        DoctorId = doctor.DoctorId,
+        Name = doctor.Name,
+        Specialization = doctor.Specialization,
+        Email = doctor.Email,
+        Password = doctor.Password,
+        RoleId = doctor.RoleId
+      };
     }
 
-    public async Task<Doctor> UpdateAsync(Doctor entity)
+    public async Task<DoctorDto> UpdateAsync(DoctorDto doctorDto)
     {
-      var doctor = await _repository.GetByIdAsync(entity.DoctorId);
+      var currentDoctor = await _repository.GetByIdAsync(doctorDto.DoctorId);
 
-      if (doctor == null)
+      if (currentDoctor == null)
       {
         throw new Exception("Doctor not found");
       }
 
-      if(!await _repository.UpdateAsync(entity))
+      var entity = new Doctor
+      {
+        DoctorId = doctorDto.DoctorId,
+        Name = doctorDto.Name,
+        Specialization = doctorDto.Specialization,
+        Email = doctorDto.Email,
+        Password = doctorDto.Password,
+        RoleId = doctorDto.RoleId
+      };
+
+      if (!await _repository.UpdateAsync(entity))
       {
         throw new Exception("Doctor not update");
       }
 
-      return entity;
+      return doctorDto;
     }
 
-    public async Task<Doctor> DeleteAsync(int doctorId)
+    public async Task<DoctorDto> DeleteAsync(int doctorId)
     {
       var doctor = await _repository.GetByIdAsync(doctorId);
 
@@ -66,12 +84,61 @@ namespace Hospital.Api.Services
         throw new Exception("Doctor not delete");
       }
 
-      return doctor;
+      return new()
+      {
+        DoctorId = doctor.DoctorId,
+        Name = doctor.Name,
+        Specialization = doctor.Specialization,
+        Email = doctor.Email,
+        Password = doctor.Password,
+        RoleId = doctor.RoleId
+      };
     }
 
-    public async Task<IEnumerable<Doctor>> GetAllAsync()
+    public async Task<IEnumerable<DoctorDto>> GetAllAsync()
     {
-      return await _repository.GetAllAsync();
+      var doctors = await _repository.GetAllAsync();
+
+      return doctors.Select(doctor => new DoctorDto
+      {
+        DoctorId = doctor.DoctorId,
+        Name = doctor.Name,
+        Specialization = doctor.Specialization,
+        Email = doctor.Email,
+        Password = doctor.Password,
+        RoleId = doctor.RoleId,
+        Appointments = doctor.Appointments != null ? doctor.Appointments.Select(appointment => new AppointmentDto
+        {
+          AppointmentId = appointment.AppointmentId,
+          Date = appointment.Date,
+          Surgery = appointment.Surgery,
+          Diagnostic = appointment.Diagnostic,
+          Patient = appointment.Patient != null ? new PatientDto
+          {
+            PatientId = appointment.Patient.PatientId,
+            Name = appointment.Patient.Name,
+            Age = appointment.Patient.Age,
+            Rh = appointment.Patient.Rh,
+            Email = appointment.Patient.Email,
+            RoleId = appointment.Patient.RoleId
+          } : null
+        }).ToList() : null
+    });
+    }
+
+    public async Task<DoctorDto> GetByIdAsync(int doctorId)
+    {
+      var doctor = await _repository.GetByIdAsync(doctorId);
+
+      return new()
+      {
+        DoctorId = doctor.DoctorId,
+        Name = doctor.Name,
+        Specialization = doctor.Specialization,
+        Email = doctor.Email,
+        Password = doctor.Password,
+        RoleId = doctor.RoleId
+      };
     }
   }
 }

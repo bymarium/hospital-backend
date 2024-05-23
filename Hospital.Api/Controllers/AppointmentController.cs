@@ -30,11 +30,11 @@ namespace Hospital.Api.Controllers
     }
 
     [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] Appointment appointment)
+    public async Task<IActionResult> Update([FromBody] AppointmentDto appointmentDto)
     {
       try
       {
-        return StatusCode(StatusCodes.Status200OK, await _service.UpdateAsync(appointment));
+        return StatusCode(StatusCodes.Status200OK, await _service.UpdateAsync(appointmentDto));
       }
       catch (Exception exception)
       {
@@ -61,18 +61,24 @@ namespace Hospital.Api.Controllers
       return StatusCode(StatusCodes.Status200OK, await _service.GetAllAsync());
     }
 
-    [HttpGet("GetByAge")]
-public async Task<IActionResult> GetByAge(int age)
-{
-    try
+    [HttpGet("GetById")]
+    public async Task<IActionResult> GetById(int appointmentId)
     {
+      return StatusCode(StatusCodes.Status200OK, await _service.GetByIdAsync(appointmentId));
+    }
+
+    [HttpGet("GetByAge")]
+    public async Task<IActionResult> GetByAge(int age)
+    {
+      try
+      {
         var appointments = await _service.GetAppointmentsByAgeAsync(age);
         return StatusCode(StatusCodes.Status200OK, appointments);
-    }
-    catch (Exception exception)
-    {
+      }
+      catch (Exception exception)
+      {
         return StatusCode(StatusCodes.Status400BadRequest, new { Error = exception.Message });
+      }
     }
-}
   }
 }

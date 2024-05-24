@@ -61,5 +61,13 @@ namespace Hospital.Api.Repositories
     {
       return await _database.Patient.AnyAsync(patient => patient.Email.Equals(email));
     }
+
+    public async Task<Patient?> GetByIdWithDetailsAsync(int patientId)
+    {
+      return await _database.Patient
+       .Include(patient => patient.Appointments)
+       .ThenInclude(appointment => appointment.Doctor)
+       .FirstOrDefaultAsync(patient => patient.PatientId.Equals(patientId));
+    }
   }
 }

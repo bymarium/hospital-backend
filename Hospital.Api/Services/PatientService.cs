@@ -128,19 +128,40 @@ namespace Hospital.Api.Services
       }); 
     }
 
-    public async Task<PatientDto> GetByIdAsync(int patientId)
+    public async Task<PatientDto?> GetByIdWithDetailsAsync(int patientId)
     {
-      var patient = await _repository.GetByIdAsync(patientId);
+      var patient = await _repository.GetByIdWithDetailsAsync(patientId);
 
-      return new()
+      if (patient == null)
+      {
+        return null;
+      }
+
+      return new PatientDto
       {
         PatientId = patient.PatientId,
         Name = patient.Name,
         Age = patient.Age,
         Rh = patient.Rh,
         Email = patient.Email,
-        Password = patient.Password
+        Password = patient.Password,
+        Appointments = patient.Appointments != null ? patient.Appointments.Select(appointment => new AppointmentDto
+        {
+          AppointmentId = appointment.AppointmentId,
+          Date = appointment.Date,
+          Surgery = appointment.Surgery,
+          Diagnostic = appointment.Diagnostic,
+          Doctor = new DoctorDto
+          {
+            DoctorId = appointment.Doctor.DoctorId,
+            Name = appointment.Doctor.Name,
+            Specialization = appointment.Doctor.Specialization,
+            Email = appointment.Doctor.Email
+          }
+        }).ToList() : null
       };
     }
+
+
   }
 }

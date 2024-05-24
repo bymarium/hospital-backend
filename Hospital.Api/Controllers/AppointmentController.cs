@@ -67,7 +67,7 @@ namespace Hospital.Api.Controllers
     [HttpGet("GetById")]
     public async Task<IActionResult> GetById(int appointmentId)
     {
-      return StatusCode(StatusCodes.Status200OK, await _service.GetByIdAsync(appointmentId));
+      return StatusCode(StatusCodes.Status200OK, await _service.GetByIdWithDetailsAsync(appointmentId));
     }
 
     [HttpGet("GetByAge")]

@@ -138,5 +138,39 @@ namespace Hospital.Api.Services
         Password = doctor.Password
       };
     }
+
+    public async Task<DoctorDto?> GetByIdWithDetailsAsync(int doctorId)
+    {
+      var doctor = await _repository.GetByIdWithDetailsAsync(doctorId);
+
+      if (doctor == null)
+      {
+        return null;
+      }
+
+      return new DoctorDto
+      {
+        DoctorId = doctor.DoctorId,
+        Name = doctor.Name,
+        Specialization = doctor.Specialization,
+        Email = doctor.Email,
+        Password = doctor.Password,
+        Appointments = doctor.Appointments != null ? doctor.Appointments.Select(appointment => new AppointmentDto
+        {
+          AppointmentId = appointment.AppointmentId,
+          Date = appointment.Date,
+          Surgery = appointment.Surgery,
+          Diagnostic = appointment.Diagnostic,
+          Patient = appointment.Patient != null ? new PatientDto
+          {
+            PatientId = appointment.Patient.PatientId,
+            Name = appointment.Patient.Name,
+            Age = appointment.Patient.Age,
+            Rh = appointment.Patient.Rh,
+            Email = appointment.Patient.Email
+          } : null
+        }).ToList() : null
+      };
+    }
   }
 }

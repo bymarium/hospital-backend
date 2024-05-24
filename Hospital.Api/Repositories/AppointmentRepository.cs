@@ -63,10 +63,18 @@ namespace Hospital.Api.Repositories
     public async Task<IEnumerable<Appointment>> GetAppointmentsByAgeAsync(DateTime forgetDate)
     {
       return await _database.Appointment
-        .Include(a => a.Patient)
-        .Include(a => a.Doctor)
-        .Where(a => a.PatientId == null && a.Date >= forgetDate)
+        .Include(appointment => appointment.Patient)
+        .Include(appointment => appointment.Doctor)
+        .Where(appointment => appointment.PatientId == null && appointment.Date >= forgetDate)
         .ToListAsync();
+    }
+
+    public async Task<Appointment?> GetByIdWithDetailsAsync(int appointmentId)
+    {
+      return await _database.Appointment
+       .Include(appointment => appointment.Doctor)
+       .Include(appointment => appointment.Patient)
+       .FirstOrDefaultAsync(appointment => appointment.AppointmentId.Equals(appointmentId));
     }
   }
 }

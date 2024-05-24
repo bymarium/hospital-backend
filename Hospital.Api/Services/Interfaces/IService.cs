@@ -9,6 +9,6 @@ namespace Hospital.Api.Services.Interfaces
     Task<T> UpdateAsync(T entity);
     Task<T> DeleteAsync(int id);
     Task<IEnumerable<T>> GetAllAsync();
-    Task<T> GetByIdAsync(int id);
+    Task<T> GetByIdWithDetailsAsync(int id);
   }
 }

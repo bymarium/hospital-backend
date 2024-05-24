@@ -17,10 +17,12 @@ builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
 
 builder.Services.AddScoped<IService<PatientDto>, PatientService>();
 builder.Services.AddScoped<IService<DoctorDto>, DoctorService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
